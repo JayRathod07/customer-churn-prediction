@@ -1,0 +1,174 @@
+# Customer Churn Prediction System Configuration
+
+# Data Configuration
+data:
+  raw_data_path: "data/customer_churn.csv"
+  processed_data_path: "data/processed_data.csv"
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+  stratify: true
+  
+  # Missing value handling strategies
+  missing_value_strategy:
+    numerical: "median"  # Options: mean, median, drop
+    categorical: "mode"  # Options: mode, drop, constant
+  
+  # Required columns
+  required_columns:
+    - customer_id
+    - gender
+    - senior_citizen
+    - partner
+    - dependents
+    - tenure
+    - phone_service
+    - multiple_lines
+    - internet_service
+    - online_security
+    - online_backup
+    - device_protection
+    - tech_support
+    - streaming_tv
+    - streaming_movies
+    - contract
+    - paperless_billing
+    - payment_method
+    - monthly_charges
+    - total_charges
+    - churn
+
+# Feature Engineering Configuration
+features:
+  # Categorical encoding
+  categorical_encoding:
+    binary_features:  # Yes/No features
+      - partner
+      - dependents
+      - phone_service
+      - paperless_billing
+    
+    nominal_features:  # One-hot encoding
+      - gender
+      - multiple_lines
+      - internet_service
+      - online_security
+      - online_backup
+      - device_protection
+      - tech_support
+      - streaming_tv
+      - streaming_movies
+      - contract
+      - payment_method
+  
+  # Numerical scaling
+  numerical_scaling:
+    method: "standard"  # Options: standard, minmax, robust
+    features:
+      - tenure
+      - monthly_charges
+      - total_charges
+  
+  # Derived features
+  derived_features:
+    - name: "charges_per_month"
+      formula: "total_charges / (tenure + 1)"  # +1 to avoid division by zero
+    - name: "service_count"
+      formula: "sum of active services"
+    - name: "tenure_group"
+      formula: "binned tenure"
+      bins: [0, 12, 24, 48, 72]
+      labels: ["0-1 year", "1-2 years", "2-4 years", "4-6 years"]
+
+# Model Training Configuration
+training:
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+  cv_folds: 5
+  scoring_metric: "f1"  # Primary metric for model selection
+  
+  # Models to train
+  models:
+    logistic_regression:
+      enabled: true
+      hyperparameters:
+        C: [0.01, 0.1, 1, 10]
+        penalty: ["l1", "l2"]
+        solver: ["liblinear"]
+        max_iter: [1000]
+    
+    random_forest:
+      enabled: true
+      hyperparameters:
+        n_estimators: [100, 200, 300]
+        max_depth: [10, 20, 30, null]
+        min_samples_split: [2, 5, 10]
+        min_samples_leaf: [1, 2, 4]
+        class_weight: ["balanced"]
+    
+    gradient_boosting:
+      enabled: true
+      hyperparameters:
+        n_estimators: [100, 200]
+        learning_rate: [0.01, 0.1, 0.2]
+        max_depth: [3, 5, 7]
+        subsample: [0.8, 1.0]
+  
+  # Hyperparameter tuning
+  hyperparameter_tuning:
+    method: "random_search"  # Options: grid_search, random_search
+    n_iter: 20  # For random search
+    n_jobs: -1  # Use all CPU cores
+
+# Model Evaluation Configuration
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+  
+  generate_plots:
+    - confusion_matrix
+    - roc_curve
+    - precision_recall_curve
+    - feature_importance
+  
+  report_format: "markdown"  # Options: markdown, html, json
+
+# API Configuration
+api:
+  host: "${API_HOST:0.0.0.0}"
+  port: 8000
+  workers: 4
+  reload: false
+  log_level: "info"
+  cors_enabled: true
+  cors_origins:
+    - "*"
+  
+  # API limits
+  max_batch_size: 1000
+  request_timeout: 30
+
+# Storage Configuration
+storage:
+  models_dir: "models"
+  artifacts_dir: "artifacts"
+  reports_dir: "reports"
+  logs_dir: "logs"
+  
+  # Model versioning
+  model_version_format: "%Y%m%d_%H%M%S"
+  keep_n_models: 5  # Keep only the latest N models
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "json"  # Options: json, text
+  log_to_console: true
+  log_to_file: true
+  max_file_size_mb: 10
+  backup_count: 5
