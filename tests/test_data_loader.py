@@ -1,4 +1,10 @@
-"""Unit tests for DataLoader class."""
+"""Unit tests for DataLoader class.
+
+Comprehensive test suite covering data loading, schema validation,
+and missing value handling functionality.
+
+Author: Jay Rathod
+"""
 
 import pytest
 import pandas as pd
@@ -395,7 +401,7 @@ class TestMissingValueHandling:
         result = data_loader.handle_missing_values(
             data_with_missing, 
             strategy,
-            numerical_columns=['age', 'income'],
+            numerical_columns=['age', 'income', 'tenure'],
             categorical_columns=['category', 'status']
         )
         

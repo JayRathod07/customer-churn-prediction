@@ -1,5 +1,9 @@
 # Customer Churn Prediction System - Project Status
 
+**Author**: Jay Rathod  
+**Last Updated**: May 2024  
+**Version**: 0.1.0 (Phase 1 Complete)
+
 ## 📊 Project Overview
 
 **Project Name**: Customer Churn Prediction System  
@@ -300,7 +304,6 @@ python -c "import pandas as pd; df = pd.read_csv('data/customer_churn.csv'); pri
 4. **`scripts/generate_data.py`** - Synthetic data generation
 5. **`tests/test_data_loader.py`** - Comprehensive unit tests
 6. **`demo.py`** - Working demo of current features
-7. **`.kiro/specs/ml-end-to-end-project/tasks.md`** - Complete task list
 
 ---
 
@@ -336,5 +339,7 @@ python -c "import pandas as pd; df = pd.read_csv('data/customer_churn.csv'); pri
 
 ---
 
-**Last Updated**: 2026-05-18  
-**Version**: 0.1.0 (Phase 1 Complete)
+**Last Updated**: 2024-05-19  
+**Version**: 0.1.0 (Phase 1 Complete)  
+**Author**: Jay Rathod
+

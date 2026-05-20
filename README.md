@@ -1,6 +1,6 @@
 # Customer Churn Prediction System
 
-> **An end-to-end machine learning project for predicting customer churn with production-ready code, comprehensive testing, and Docker deployment.**
+An end-to-end machine learning project for predicting customer churn with production-ready code, comprehensive testing, and Docker deployment.
 
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.11-blue)]()
@@ -8,73 +8,51 @@
 
 ---
 
-## 📋 Table of Contents
+## Overview
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Development Status](#development-status)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
+This project demonstrates a complete ML pipeline for predicting customer churn. It includes everything from data generation and validation to model training and API deployment. The focus is on production-ready code with proper error handling, logging, testing, and configuration management.
+
+**What's included:**
+- Data engineering pipeline with validation and quality reporting
+- Feature engineering with multiple encoding strategies
+- Model training with hyperparameter tuning
+- RESTful API for predictions
+- Docker containerization
+- Comprehensive test suite
 
 ---
 
-## 🎯 Overview
+## Features
 
-The **Customer Churn Prediction System** is a complete machine learning pipeline that predicts whether customers will churn (leave the service). This project demonstrates:
+### Currently Working
 
-- **Data Engineering**: Synthetic data generation, loading, validation, and quality reporting
-- **Feature Engineering**: Categorical encoding, numerical scaling, and derived features
-- **Model Training**: Multiple ML algorithms with hyperparameter tuning
-- **Model Evaluation**: Comprehensive metrics and visualizations
-- **API Development**: RESTful API with FastAPI for real-time predictions
-- **Deployment**: Docker containerization for easy deployment
-- **Testing**: Unit tests, integration tests, and property-based tests
+- **Data Generation**: Creates realistic synthetic customer data with 21 features
+- **Data Loading & Validation**: Robust CSV loading with schema validation
+- **Data Quality Reporting**: Detailed metrics on missing values, duplicates, and statistics
+- **Missing Value Handling**: Multiple imputation strategies (mean, median, mode, constant)
+- **Configuration Management**: YAML-based config with environment variable support
+- **Logging**: Structured logging for production environments
+- **Testing**: Comprehensive unit tests with pytest
 
-**Perfect for**: Data science portfolios, resume projects, and learning end-to-end ML workflows.
-
----
-
-## ✨ Features
-
-### ✅ Currently Implemented
-
-- **Data Generation**: Generate realistic synthetic customer data with configurable parameters
-- **Data Loading**: Robust CSV loading with comprehensive error handling
-- **Schema Validation**: Automatic validation of data structure and types
-- **Data Quality Reporting**: Detailed quality metrics including missing values, duplicates, and statistics
-- **Missing Value Handling**: Multiple imputation strategies (mean, median, mode, drop)
-- **Configuration Management**: YAML-based configuration with environment variable support
-- **Logging**: Structured JSON logging for production observability
-- **Testing**: Comprehensive unit tests with pytest (100% passing)
-
-### 🚧 In Development
+### In Development
 
 - Feature engineering pipeline
 - ML model training (Logistic Regression, Random Forest, XGBoost)
 - Model evaluation and visualization
 - Prediction API with FastAPI
 - Docker containerization
-- CI/CD pipeline
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-| Category | Technologies |
-|----------|-------------|
-| **Language** | Python 3.11+ |
-| **ML/Data** | pandas, NumPy, scikit-learn, XGBoost, LightGBM |
-| **API** | FastAPI, Uvicorn, Pydantic |
-| **Testing** | pytest, pytest-cov, hypothesis |
-| **Deployment** | Docker, docker-compose |
-| **Code Quality** | black, flake8, mypy, pre-commit |
-| **Visualization** | matplotlib, seaborn, plotly |
+- **Language**: Python 3.11+
+- **ML/Data**: pandas, NumPy, scikit-learn, XGBoost, LightGBM
+- **API**: FastAPI, Uvicorn, Pydantic
+- **Testing**: pytest, pytest-cov, hypothesis
+- **Deployment**: Docker, docker-compose
+- **Code Quality**: black, flake8, mypy
+- **Visualization**: matplotlib, seaborn, plotly
 
 ---
 
@@ -90,7 +68,7 @@ The **Customer Churn Prediction System** is a complete machine learning pipeline
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/customer-churn-prediction.git
+   git clone https://github.com/jayRathod07/customer-churn-prediction.git
    cd customer-churn-prediction
    ```
 
@@ -404,11 +382,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👤 Author
 
-**Your Name**
+**Jay Rathod**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+- GitHub: [@jayRathod07](https://github.com/jayRathod07)
+- LinkedIn: [Jay Rathod](https://www.linkedin.com/in/jay-rathod-9ab3a0371/)
+- Email: jayrathod121005@gmail.com
 
 ---
 
@@ -424,9 +402,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Project Status](PROJECT_STATUS.md) - Detailed implementation status
 - [Quick Start Guide](QUICK_START.md) - Step-by-step setup instructions
-- [Task List](.kiro/specs/ml-end-to-end-project/tasks.md) - Complete task breakdown
-- [Design Document](.kiro/specs/ml-end-to-end-project/design.md) - Technical design
-- [Requirements](.kiro/specs/ml-end-to-end-project/requirements.md) - Functional requirements
 
 ---
 

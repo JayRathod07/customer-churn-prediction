@@ -1,5 +1,8 @@
 # Quick Start Guide - Customer Churn Prediction System
 
+**Author**: Jay Rathod  
+**Project**: Customer Churn Prediction ML Pipeline
+
 ## 🎯 What You Have Now
 
 A **working ML project foundation** with:

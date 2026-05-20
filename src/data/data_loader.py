@@ -1,4 +1,11 @@
-"""Data loading and validation module for customer churn prediction."""
+"""Data loading and validation module for customer churn prediction.
+
+This module provides classes for loading customer data from CSV files,
+validating schemas, generating quality reports, and handling missing values.
+
+Author: Jay Rathod
+Date: 2024
+"""
 
 import pandas as pd
 import numpy as np

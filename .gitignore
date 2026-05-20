@@ -68,3 +68,6 @@ data/test_data.csv
 
 # Large data files (optional - uncomment if data is too large)
 # data/*.csv
+
+# Project-specific
+CHANGES_SUMMARY.md

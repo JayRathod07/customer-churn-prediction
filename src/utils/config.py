@@ -1,4 +1,10 @@
-"""Configuration management module for loading and validating YAML configuration files."""
+"""Configuration management module for loading and validating YAML configuration files.
+
+Handles loading configuration from YAML files with support for environment
+variable substitution and validation of required fields.
+
+Author: Jay Rathod
+"""
 
 import os
 import yaml

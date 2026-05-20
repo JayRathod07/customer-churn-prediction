@@ -1,4 +1,10 @@
-"""Demo script to showcase the Customer Churn Prediction System."""
+"""Demo script to showcase the Customer Churn Prediction System.
+
+This script demonstrates the core functionality of the data pipeline including
+configuration loading, data validation, and quality reporting.
+
+Author: Jay Rathod
+"""
 
 import pandas as pd
 from src.data.data_loader import DataLoader, DataQualityChecker
@@ -27,13 +33,13 @@ def main():
     try:
         config_manager = ConfigManager('config/config.yaml')
         config = config_manager.config
-        print(f"✓ Configuration loaded successfully")
+        print(f"[OK] Configuration loaded successfully")
         print(f"  - Data path: {config['data']['raw_data_path']}")
         print(f"  - Test size: {config['data']['test_size']}")
         print(f"  - Random state: {config['data']['random_state']}")
         print()
     except Exception as e:
-        print(f"✗ Failed to load configuration: {e}")
+        print(f"[ERROR] Failed to load configuration: {e}")
         return
     
     # Step 2: Load data
@@ -41,12 +47,12 @@ def main():
     try:
         data_loader = DataLoader()
         df = data_loader.load_data(config['data']['raw_data_path'])
-        print(f"✓ Data loaded successfully")
+        print(f"[OK] Data loaded successfully")
         print(f"  - Total records: {len(df):,}")
         print(f"  - Total features: {len(df.columns)}")
         print()
     except Exception as e:
-        print(f"✗ Failed to load data: {e}")
+        print(f"[ERROR] Failed to load data: {e}")
         return
     
     # Step 3: Validate schema
@@ -54,19 +60,19 @@ def main():
     try:
         validation_result = data_loader.validate_schema(df)
         if validation_result.is_valid:
-            print(f"✓ Schema validation passed")
+            print(f"[OK] Schema validation passed")
             if validation_result.warnings:
                 print(f"  - Warnings: {len(validation_result.warnings)}")
                 for warning in validation_result.warnings[:3]:
-                    print(f"    • {warning}")
+                    print(f"    * {warning}")
         else:
-            print(f"✗ Schema validation failed")
+            print(f"[ERROR] Schema validation failed")
             print(f"  - Errors: {len(validation_result.errors)}")
             for error in validation_result.errors[:5]:
-                print(f"    • {error}")
+                print(f"    * {error}")
         print()
     except Exception as e:
-        print(f"✗ Failed to validate schema: {e}")
+        print(f"[ERROR] Failed to validate schema: {e}")
         return
     
     # Step 4: Generate data quality report
@@ -74,7 +80,7 @@ def main():
     try:
         quality_checker = DataQualityChecker()
         quality_report = quality_checker.generate_quality_report(df)
-        print(f"✓ Data quality report generated")
+        print(f"[OK] Data quality report generated")
         print(f"  - Total records: {quality_report.total_records:,}")
         print(f"  - Total features: {quality_report.total_features}")
         print(f"  - Duplicate records: {quality_report.duplicates_count:,}")
@@ -86,12 +92,12 @@ def main():
             print(f"  Missing values found in {len(missing_cols)} columns:")
             for col, count in list(missing_cols.items())[:5]:
                 pct = quality_report.missing_percentage[col]
-                print(f"    • {col}: {count:,} ({pct:.2f}%)")
+                print(f"    * {col}: {count:,} ({pct:.2f}%)")
         else:
-            print(f"  ✓ No missing values found")
+            print(f"  [OK] No missing values found")
         print()
     except Exception as e:
-        print(f"✗ Failed to generate quality report: {e}")
+        print(f"[ERROR] Failed to generate quality report: {e}")
         return
     
     # Step 5: Show data preview
