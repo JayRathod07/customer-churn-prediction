@@ -30,13 +30,14 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
 - **Data Loading & Validation**: Robust CSV loading with schema validation
 - **Data Quality Reporting**: Detailed metrics on missing values, duplicates, and statistics
 - **Missing Value Handling**: Multiple imputation strategies (mean, median, mode, constant)
+- **Feature Engineering**: Complete transformation pipeline with encoding, scaling, and derived features
+- **Data Models**: Pydantic V2 models for robust data validation and API contracts
 - **Configuration Management**: YAML-based config with environment variable support
 - **Logging**: Structured logging for production environments
-- **Testing**: Comprehensive unit tests with pytest
+- **Testing**: Comprehensive unit tests with pytest (75 tests passing)
 
 ### In Development
 
-- Feature engineering pipeline
 - ML model training (Logistic Regression, Random Forest, XGBoost)
 - Model evaluation and visualization
 - Prediction API with FastAPI
@@ -95,7 +96,11 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
 
 5. **Run demo**
    ```bash
+   # Data pipeline demo
    python demo.py
+   
+   # Feature engineering demo
+   python demo_features.py
    ```
 
 ---
@@ -117,9 +122,11 @@ customer-churn-prediction/
 │   │   └── __init__.py
 │   │
 │   ├── features/                   # Feature engineering
+│   │   ├── feature_transformer.py  # Feature transformation pipeline
 │   │   └── __init__.py
 │   │
-│   ├── models/                     # ML models
+│   ├── models/                     # ML models and data models
+│   │   ├── data_models.py          # Pydantic validation models
 │   │   └── __init__.py
 │   │
 │   ├── api/                        # FastAPI endpoints
@@ -132,7 +139,9 @@ customer-churn-prediction/
 │       └── __init__.py
 │
 ├── tests/                          # Unit tests
-│   └── test_data_loader.py         # DataLoader tests
+│   ├── test_data_loader.py         # DataLoader tests (24 tests)
+│   ├── test_feature_transformer.py # Feature tests (25 tests)
+│   └── test_data_models.py         # Pydantic model tests (26 tests)
 │
 ├── scripts/                        # Utility scripts
 │   └── generate_data.py            # Data generation
@@ -145,7 +154,8 @@ customer-churn-prediction/
 ├── logs/                           # Application logs
 │
 ├── requirements.txt                # Python dependencies
-├── demo.py                         # Demo script
+├── demo.py                         # Demo script (data pipeline)
+├── demo_features.py                # Demo script (feature engineering)
 ├── test_all.py                     # Comprehensive test suite
 ├── PROJECT_STATUS.md               # Detailed project status
 ├── QUICK_START.md                  # Quick start guide
@@ -226,6 +236,66 @@ strategy = {
 df_clean = loader.handle_missing_values(df, strategy)
 ```
 
+### Feature Engineering
+
+```python
+from src.features.feature_transformer import FeatureTransformer
+import pandas as pd
+
+# Load data
+df = pd.read_csv('data/customer_churn.csv')
+
+# Create and fit transformer
+transformer = FeatureTransformer()
+X_transformed = transformer.fit_transform(df)
+
+print(f"Original features: {df.shape[1]}")
+print(f"Transformed features: {X_transformed.shape[1]}")
+
+# Save transformer for later use
+transformer.save('artifacts/feature_transformer.joblib')
+
+# Load transformer
+loaded_transformer = FeatureTransformer.load('artifacts/feature_transformer.joblib')
+X_new = loaded_transformer.transform(new_data)
+```
+
+### Data Validation with Pydantic
+
+```python
+from src.models.data_models import CustomerData, PredictionRequest
+
+# Validate customer data
+customer = CustomerData(
+    customer_id="CUST001",
+    gender="Male",
+    senior_citizen=0,
+    partner="Yes",
+    dependents="No",
+    tenure=12,
+    phone_service="Yes",
+    multiple_lines="No",
+    internet_service="Fiber optic",
+    online_security="No",
+    online_backup="Yes",
+    device_protection="No",
+    tech_support="No",
+    streaming_tv="Yes",
+    streaming_movies="No",
+    contract="Month-to-month",
+    paperless_billing="Yes",
+    payment_method="Electronic check",
+    monthly_charges=70.35,
+    total_charges=840.75
+)
+
+# Create prediction request
+request = PredictionRequest(
+    customer_id="CUST001",
+    features=customer.model_dump(exclude={'customer_id'})
+)
+```
+
 ---
 
 ## 🧪 Testing
@@ -238,6 +308,11 @@ python test_all.py
 
 # Run specific test file
 pytest tests/test_data_loader.py -v
+pytest tests/test_feature_transformer.py -v
+pytest tests/test_data_models.py -v
+
+# Run all tests
+pytest tests/ -v
 
 # Run with coverage
 pytest tests/ --cov=src --cov-report=html
@@ -246,16 +321,11 @@ pytest tests/ --cov=src --cov-report=html
 ### Test Results
 
 ```
-✅ Module Imports          - PASS
-✅ Data Generation         - PASS
-✅ Data Loading            - PASS
-✅ Schema Validation       - PASS
-✅ Quality Reporting       - PASS
-✅ Configuration           - PASS
-✅ Missing Value Handling  - PASS
-✅ Unit Tests              - PASS (9/9)
+✅ Data Loader Tests       - PASS (24/24)
+✅ Feature Transformer     - PASS (25/25)
+✅ Data Models Tests       - PASS (26/26)
 
-TOTAL: 8/8 tests passed (100.0%)
+TOTAL: 75/75 tests passed (100.0%)
 ```
 
 ---
@@ -271,27 +341,38 @@ TOTAL: 8/8 tests passed (100.0%)
 - [x] Missing value handling
 - [x] Configuration management
 - [x] Logging setup
-- [x] Unit tests
+- [x] Unit tests (24 tests passing)
 
-### Phase 2: Feature Engineering 🚧 IN PROGRESS
+### Phase 2: Feature Engineering ✅ COMPLETE
 
-- [ ] Feature transformer class
-- [ ] Categorical encoding
-- [ ] Numerical scaling
-- [ ] Derived features
-- [ ] Transformer persistence
+- [x] Feature transformer class
+- [x] Categorical encoding (binary and one-hot)
+- [x] Numerical scaling (StandardScaler)
+- [x] Derived features (5 new features)
+- [x] Transformer persistence (save/load)
+- [x] Unit tests (25 tests passing)
+- [x] Demo script
 
-### Phase 3: Model Training 📋 PLANNED
+### Phase 3: Data Models ✅ COMPLETE
 
-- [ ] Train-test split
+- [x] Pydantic V2 models for validation
+- [x] CustomerData and TrainingData models
+- [x] API request/response models
+- [x] ModelMetadata and EvaluationMetrics models
+- [x] Enum classes for categorical fields
+- [x] Unit tests (26 tests passing)
+
+### Phase 4: Model Training 📋 PLANNED
+
+- [ ] Train-test split with stratification
 - [ ] Model trainer class
 - [ ] Logistic Regression
 - [ ] Random Forest
-- [ ] Gradient Boosting
+- [ ] Gradient Boosting (XGBoost/LightGBM)
 - [ ] Hyperparameter tuning
 - [ ] Model selection
 
-### Phase 4: Model Evaluation 📋 PLANNED
+### Phase 5: Model Evaluation 📋 PLANNED
 
 - [ ] Model evaluator class
 - [ ] Metrics computation
@@ -300,7 +381,7 @@ TOTAL: 8/8 tests passed (100.0%)
 - [ ] Visualization functions
 - [ ] Report generation
 
-### Phase 5: API Development 📋 PLANNED
+### Phase 6: API Development 📋 PLANNED
 
 - [ ] FastAPI application
 - [ ] Prediction endpoints
@@ -308,14 +389,14 @@ TOTAL: 8/8 tests passed (100.0%)
 - [ ] Model info endpoint
 - [ ] Error handling
 
-### Phase 6: Deployment 📋 PLANNED
+### Phase 7: Deployment 📋 PLANNED
 
 - [ ] Dockerfile
 - [ ] docker-compose
 - [ ] CI/CD pipeline
 - [ ] Documentation
 
-**Overall Progress**: ~15% (15/101 tasks completed)
+**Overall Progress**: ~35% (40/101 tasks completed)
 
 ---
 
@@ -348,7 +429,7 @@ TOTAL: 8/8 tests passed (100.0%)
 
 | Metric | Target | Current |
 |--------|--------|---------|
-| Test Coverage | 80% | 100% (Phase 1) |
+| Test Coverage | 80% | 100% (Phases 1-3) |
 | Model F1-Score | 80% | TBD |
 | API Response Time | <100ms | TBD |
 | Docker Image Size | <2GB | TBD |
