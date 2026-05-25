@@ -22,6 +22,8 @@ from .data_models import (
     PaymentMethod
 )
 
+from .model_trainer import ModelTrainer
+
 __all__ = [
     'CustomerData',
     'TrainingData',
@@ -38,5 +40,6 @@ __all__ = [
     'YesNo',
     'InternetService',
     'Contract',
-    'PaymentMethod'
+    'PaymentMethod',
+    'ModelTrainer'
 ]

@@ -32,13 +32,15 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
 - **Missing Value Handling**: Multiple imputation strategies (mean, median, mode, constant)
 - **Feature Engineering**: Complete transformation pipeline with encoding, scaling, and derived features
 - **Data Models**: Pydantic V2 models for robust data validation and API contracts
+- **Model Training**: Train multiple ML models (Logistic Regression, Random Forest, Gradient Boosting) with hyperparameter tuning
+- **Model Evaluation**: Comprehensive metrics (accuracy, precision, recall, F1, ROC-AUC)
+- **Model Persistence**: Save/load trained models with metadata
 - **Configuration Management**: YAML-based config with environment variable support
 - **Logging**: Structured logging for production environments
-- **Testing**: Comprehensive unit tests with pytest (75 tests passing)
+- **Testing**: Comprehensive unit tests with pytest (100 tests passing)
 
 ### In Development
 
-- ML model training (Logistic Regression, Random Forest, XGBoost)
 - Model evaluation and visualization
 - Prediction API with FastAPI
 - Docker containerization
@@ -101,6 +103,9 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
    
    # Feature engineering demo
    python demo_features.py
+   
+   # Model training demo
+   python demo_training.py
    ```
 
 ---
@@ -127,6 +132,7 @@ customer-churn-prediction/
 │   │
 │   ├── models/                     # ML models and data models
 │   │   ├── data_models.py          # Pydantic validation models
+│   │   ├── model_trainer.py        # Model training pipeline
 │   │   └── __init__.py
 │   │
 │   ├── api/                        # FastAPI endpoints
@@ -141,7 +147,8 @@ customer-churn-prediction/
 ├── tests/                          # Unit tests
 │   ├── test_data_loader.py         # DataLoader tests (24 tests)
 │   ├── test_feature_transformer.py # Feature tests (25 tests)
-│   └── test_data_models.py         # Pydantic model tests (26 tests)
+│   ├── test_data_models.py         # Pydantic model tests (26 tests)
+│   └── test_model_trainer.py       # Model training tests (25 tests)
 │
 ├── scripts/                        # Utility scripts
 │   └── generate_data.py            # Data generation
@@ -156,6 +163,7 @@ customer-churn-prediction/
 ├── requirements.txt                # Python dependencies
 ├── demo.py                         # Demo script (data pipeline)
 ├── demo_features.py                # Demo script (feature engineering)
+├── demo_training.py                # Demo script (model training)
 ├── test_all.py                     # Comprehensive test suite
 ├── PROJECT_STATUS.md               # Detailed project status
 ├── QUICK_START.md                  # Quick start guide
@@ -296,6 +304,54 @@ request = PredictionRequest(
 )
 ```
 
+### Model Training
+
+```python
+from src.data.data_loader import DataLoader
+from src.features.feature_transformer import FeatureTransformer
+from src.models.model_trainer import ModelTrainer
+from src.utils.config import ConfigManager
+
+# Load configuration
+config_manager = ConfigManager()
+config = config_manager.config
+
+# Load and prepare data
+loader = DataLoader()
+df = loader.load_data('data/customer_churn.csv')
+
+# Separate features and target
+X = df.drop(['churn', 'customer_id'], axis=1)
+y = df['churn']
+
+# Transform features
+transformer = FeatureTransformer()
+X_transformed = transformer.fit_transform(X)
+
+# Initialize trainer
+trainer = ModelTrainer(config)
+
+# Train-test split
+X_train, X_test, y_train, y_test = trainer.prepare_train_test_split(
+    X_transformed, y, stratify=True
+)
+
+# Train all models
+results = trainer.train_all_models(X_train, y_train, tune_hyperparameters=True)
+
+# Select best model
+best_name, best_model, best_metrics = trainer.select_best_model(
+    results, X_test, y_test, metric='f1'
+)
+
+print(f"Best model: {best_name}")
+print(f"F1-Score: {best_metrics['f1']:.4f}")
+
+# Save best model
+model_path = trainer.save_model(best_model, best_name, best_metrics)
+print(f"Model saved to: {model_path}")
+```
+
 ---
 
 ## 🧪 Testing
@@ -310,6 +366,7 @@ python test_all.py
 pytest tests/test_data_loader.py -v
 pytest tests/test_feature_transformer.py -v
 pytest tests/test_data_models.py -v
+pytest tests/test_model_trainer.py -v
 
 # Run all tests
 pytest tests/ -v
@@ -324,8 +381,9 @@ pytest tests/ --cov=src --cov-report=html
 ✅ Data Loader Tests       - PASS (24/24)
 ✅ Feature Transformer     - PASS (25/25)
 ✅ Data Models Tests       - PASS (26/26)
+✅ Model Trainer Tests     - PASS (25/25)
 
-TOTAL: 75/75 tests passed (100.0%)
+TOTAL: 100/100 tests passed (100.0%)
 ```
 
 ---
@@ -362,15 +420,18 @@ TOTAL: 75/75 tests passed (100.0%)
 - [x] Enum classes for categorical fields
 - [x] Unit tests (26 tests passing)
 
-### Phase 4: Model Training 📋 PLANNED
+### Phase 4: Model Training ✅ COMPLETE
 
-- [ ] Train-test split with stratification
-- [ ] Model trainer class
-- [ ] Logistic Regression
-- [ ] Random Forest
-- [ ] Gradient Boosting (XGBoost/LightGBM)
-- [ ] Hyperparameter tuning
-- [ ] Model selection
+- [x] Train-test split with stratification
+- [x] ModelTrainer class
+- [x] Logistic Regression training
+- [x] Random Forest training
+- [x] Gradient Boosting training
+- [x] Hyperparameter tuning (RandomizedSearchCV)
+- [x] Model selection logic
+- [x] Model persistence with metadata
+- [x] Unit tests (25 tests passing)
+- [x] Demo script
 
 ### Phase 5: Model Evaluation 📋 PLANNED
 
@@ -396,7 +457,7 @@ TOTAL: 75/75 tests passed (100.0%)
 - [ ] CI/CD pipeline
 - [ ] Documentation
 
-**Overall Progress**: ~35% (40/101 tasks completed)
+**Overall Progress**: ~45% (50/101 tasks completed)
 
 ---
 
