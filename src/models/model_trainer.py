@@ -426,12 +426,21 @@ class ModelTrainer:
             y_pred = model.predict(X_test)
             y_pred_proba = model.predict_proba(X_test)[:, 1]
             
+            # Handle string labels by specifying pos_label
+            pos_label = 1
+            if y_test.dtype == 'object' or isinstance(y_test.iloc[0], str):
+                # If labels are strings, use 'Yes' as positive class
+                pos_label = 'Yes'
+            
             metrics = {
                 'accuracy': accuracy_score(y_test, y_pred),
-                'precision': precision_score(y_test, y_pred),
-                'recall': recall_score(y_test, y_pred),
-                'f1': f1_score(y_test, y_pred),
-                'roc_auc': roc_auc_score(y_test, y_pred_proba)
+                'precision': precision_score(y_test, y_pred, pos_label=pos_label),
+                'recall': recall_score(y_test, y_pred, pos_label=pos_label),
+                'f1': f1_score(y_test, y_pred, pos_label=pos_label),
+                'roc_auc': roc_auc_score(
+                    (y_test == pos_label).astype(int), 
+                    y_pred_proba
+                )
             }
             
             logger.info(f"Model evaluation metrics: {metrics}")

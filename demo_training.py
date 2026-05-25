@@ -56,8 +56,12 @@ def main():
         print(f"[OK] Features shape: {X.shape}")
         print(f"[OK] Target shape: {y.shape}")
         print(f"[OK] Class distribution:")
-        print(f"     - Churn (1): {(y == 1).sum()} ({(y == 1).mean() * 100:.1f}%)")
-        print(f"     - No Churn (0): {(y == 0).sum()} ({(y == 0).mean() * 100:.1f}%)")
+        if y.dtype == 'object' or isinstance(y.iloc[0], str):
+            print(f"     - Churn (Yes): {(y == 'Yes').sum()} ({(y == 'Yes').mean() * 100:.1f}%)")
+            print(f"     - No Churn (No): {(y == 'No').sum()} ({(y == 'No').mean() * 100:.1f}%)")
+        else:
+            print(f"     - Churn (1): {(y == 1).sum()} ({(y == 1).mean() * 100:.1f}%)")
+            print(f"     - No Churn (0): {(y == 0).sum()} ({(y == 0).mean() * 100:.1f}%)")
         
         # Step 4: Feature transformation
         print_section("Step 4: Feature Transformation")
