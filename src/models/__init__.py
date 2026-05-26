@@ -23,6 +23,7 @@ from .data_models import (
 )
 
 from .model_trainer import ModelTrainer
+from .model_evaluator import ModelEvaluator
 
 __all__ = [
     'CustomerData',
@@ -41,5 +42,6 @@ __all__ = [
     'InternetService',
     'Contract',
     'PaymentMethod',
-    'ModelTrainer'
+    'ModelTrainer',
+    'ModelEvaluator'
 ]
