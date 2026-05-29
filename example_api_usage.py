@@ -48,27 +48,25 @@ def example_single_prediction():
     # Sample customer data
     customer_data = {
         "customer_id": "CUST001",
-        "features": {
-            "gender": "Male",
-            "senior_citizen": 0,
-            "partner": "Yes",
-            "dependents": "No",
-            "tenure": 12,
-            "phone_service": "Yes",
-            "multiple_lines": "No",
-            "internet_service": "Fiber optic",
-            "online_security": "No",
-            "online_backup": "Yes",
-            "device_protection": "No",
-            "tech_support": "No",
-            "streaming_tv": "Yes",
-            "streaming_movies": "No",
-            "contract": "Month-to-month",
-            "paperless_billing": "Yes",
-            "payment_method": "Electronic check",
-            "monthly_charges": 70.35,
-            "total_charges": 840.75
-        }
+        "gender": "Male",
+        "senior_citizen": 0,
+        "partner": "Yes",
+        "dependents": "No",
+        "tenure": 12,
+        "phone_service": "Yes",
+        "multiple_lines": "No",
+        "internet_service": "Fiber optic",
+        "online_security": "No",
+        "online_backup": "Yes",
+        "device_protection": "No",
+        "tech_support": "No",
+        "streaming_tv": "Yes",
+        "streaming_movies": "No",
+        "contract": "Month-to-month",
+        "paperless_billing": "Yes",
+        "payment_method": "Electronic check",
+        "monthly_charges": 70.35,
+        "total_charges": 840.75
     }
     
     response = requests.post(f"{BASE_URL}/predict", json=customer_data)
