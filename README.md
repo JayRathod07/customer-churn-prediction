@@ -2,7 +2,8 @@
 
 An end-to-end machine learning project for predicting customer churn with production-ready code, comprehensive testing, and Docker deployment.
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
+[![CI/CD](https://github.com/jayRathod07/customer-churn-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/jayRathod07/customer-churn-prediction/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/tests-130%20passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.11-blue)]()
 [![License](https://img.shields.io/badge/license-MIT-green)]()
 
@@ -41,11 +42,14 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
 - **Configuration Management**: YAML-based config with environment variable support
 - **Logging**: Structured logging for production environments
 - **Testing**: Comprehensive unit tests with pytest (130 tests passing)
+- **Training Pipeline**: Complete end-to-end training script with CLI arguments
+- **CI/CD Pipeline**: GitHub Actions workflow for automated testing, linting, and Docker builds
+- **API Examples**: Comprehensive examples for all API endpoints
 
 ### In Development
 
-- CI/CD pipeline
 - Advanced monitoring and logging
+- Model drift detection
 
 ---
 
@@ -108,6 +112,33 @@ This project demonstrates a complete ML pipeline for predicting customer churn. 
    
    # Model training demo
    python demo_training.py
+   
+   # Model evaluation demo
+   python demo_evaluation.py
+   ```
+
+6. **Train a model**
+   ```bash
+   # Quick training (no hyperparameter tuning)
+   python train.py
+   
+   # Full training with hyperparameter tuning and report
+   python train.py --tune --report
+   ```
+
+7. **Start the API server**
+   ```bash
+   # Start the API server
+   python serve.py
+   
+   # Or with Docker
+   docker-compose up
+   ```
+
+8. **Test the API**
+   ```bash
+   # Run API usage examples
+   python example_api_usage.py
    ```
 
 ---
@@ -150,10 +181,16 @@ customer-churn-prediction/
 │   ├── test_data_loader.py         # DataLoader tests (24 tests)
 │   ├── test_feature_transformer.py # Feature tests (25 tests)
 │   ├── test_data_models.py         # Pydantic model tests (26 tests)
-│   └── test_model_trainer.py       # Model training tests (25 tests)
+│   ├── test_model_trainer.py       # Model training tests (25 tests)
+│   ├── test_model_evaluator.py     # Model evaluation tests (20 tests)
+│   └── test_api.py                 # API tests (10 tests)
 │
 ├── scripts/                        # Utility scripts
 │   └── generate_data.py            # Data generation
+│
+├── .github/                        # GitHub configuration
+│   └── workflows/
+│       └── ci.yml                  # CI/CD pipeline
 │
 ├── notebooks/                      # Jupyter notebooks
 │
@@ -163,14 +200,362 @@ customer-churn-prediction/
 ├── logs/                           # Application logs
 │
 ├── requirements.txt                # Python dependencies
+├── train.py                        # Complete training pipeline script
+├── serve.py                        # API server script
+├── example_api_usage.py            # API usage examples
 ├── demo.py                         # Demo script (data pipeline)
 ├── demo_features.py                # Demo script (feature engineering)
 ├── demo_training.py                # Demo script (model training)
+├── demo_evaluation.py              # Demo script (model evaluation)
+├── Dockerfile                      # Docker image definition
+├── docker-compose.yml              # Docker compose configuration
+├── .dockerignore                   # Docker ignore file
 ├── test_all.py                     # Comprehensive test suite
 ├── PROJECT_STATUS.md               # Detailed project status
 ├── QUICK_START.md                  # Quick start guide
 └── README.md                       # This file
 ```
+
+---
+
+## 💻 Usage
+
+### Generate Synthetic Data
+
+```bash
+# Generate 10,000 customer records
+python scripts/generate_data.py --n-samples 10000
+
+# Specify output path
+python scripts/generate_data.py --n-samples 5000 --output data/my_data.csv
+
+# Set random seed for reproducibility
+python scripts/generate_data.py --n-samples 1000 --random-state 42
+```
+
+### Load and Validate Data
+
+```python
+from src.data.data_loader import DataLoader
+
+# Create loader
+loader = DataLoader()
+
+# Load data
+df = loader.load_data('data/customer_churn.csv')
+print(f"Loaded {len(df)} records")
+
+# Validate schema
+result = loader.validate_schema(df)
+if result.is_valid:
+    print("✓ Schema is valid")
+else:
+    print("✗ Validation errors:")
+    for error in result.errors:
+        print(f"  - {error}")
+```
+
+### Generate Quality Report
+
+```python
+from src.data.data_loader import DataQualityChecker
+import pandas as pd
+
+# Load data
+df = pd.read_csv('data/customer_churn.csv')
+
+# Generate report
+checker = DataQualityChecker()
+report = checker.generate_quality_report(df)
+
+# Print summary
+print(report.summary())
+```
+
+### Handle Missing Values
+
+```python
+from src.data.data_loader import DataLoader
+
+loader = DataLoader()
+df = loader.load_data('data/customer_churn.csv')
+
+# Define strategy
+strategy = {
+    'numerical': 'median',  # mean, median, drop
+    'categorical': 'mode'   # mode, constant, drop
+}
+
+# Handle missing values
+df_clean = loader.handle_missing_values(df, strategy)
+```
+
+### Feature Engineering
+
+```python
+from src.features.feature_transformer import FeatureTransformer
+import pandas as pd
+
+# Load data
+df = pd.read_csv('data/customer_churn.csv')
+
+# Create and fit transformer
+transformer = FeatureTransformer()
+X_transformed = transformer.fit_transform(df)
+
+print(f"Original features: {df.shape[1]}")
+print(f"Transformed features: {X_transformed.shape[1]}")
+
+# Save transformer for later use
+transformer.save('artifacts/feature_transformer.joblib')
+
+# Load transformer
+loaded_transformer = FeatureTransformer.load('artifacts/feature_transformer.joblib')
+X_new = loaded_transformer.transform(new_data)
+```
+
+### Data Validation with Pydantic
+
+```python
+from src.models.data_models import CustomerData, PredictionRequest
+
+# Validate customer data
+customer = CustomerData(
+    customer_id="CUST001",
+    gender="Male",
+    senior_citizen=0,
+    partner="Yes",
+    dependents="No",
+    tenure=12,
+    phone_service="Yes",
+    multiple_lines="No",
+    internet_service="Fiber optic",
+    online_security="No",
+    online_backup="Yes",
+    device_protection="No",
+    tech_support="No",
+    streaming_tv="Yes",
+    streaming_movies="No",
+    contract="Month-to-month",
+    paperless_billing="Yes",
+    payment_method="Electronic check",
+    monthly_charges=70.35,
+    total_charges=840.75
+)
+
+# Create prediction request
+request = PredictionRequest(
+    customer_id="CUST001",
+    features=customer.model_dump(exclude={'customer_id'})
+)
+```
+
+### Model Training
+
+```python
+from src.data.data_loader import DataLoader
+from src.features.feature_transformer import FeatureTransformer
+from src.models.model_trainer import ModelTrainer
+from src.utils.config import ConfigManager
+
+# Load configuration
+config_manager = ConfigManager()
+config = config_manager.config
+
+# Load and prepare data
+loader = DataLoader()
+df = loader.load_data('data/customer_churn.csv')
+
+# Separate features and target
+X = df.drop(['churn', 'customer_id'], axis=1)
+y = df['churn']
+
+# Transform features
+transformer = FeatureTransformer()
+X_transformed = transformer.fit_transform(X)
+
+# Initialize trainer
+trainer = ModelTrainer(config)
+
+# Train-test split
+X_train, X_test, y_train, y_test = trainer.prepare_train_test_split(
+    X_transformed, y, stratify=True
+)
+
+# Train all models
+results = trainer.train_all_models(X_train, y_train, tune_hyperparameters=True)
+
+# Select best model
+best_name, best_model, best_metrics = trainer.select_best_model(
+    results, X_test, y_test, metric='f1'
+)
+
+print(f"Best model: {best_name}")
+print(f"F1-Score: {best_metrics['f1']:.4f}")
+
+# Save best model
+model_path = trainer.save_model(best_model, best_name, best_metrics)
+print(f"Model saved to: {model_path}")
+```
+
+### Training Pipeline Script
+
+The `train.py` script provides a complete end-to-end training pipeline:
+
+```bash
+# Basic training (uses default data path from config)
+python train.py
+
+# Train with custom data
+python train.py --data path/to/data.csv
+
+# Enable hyperparameter tuning
+python train.py --tune
+
+# Train specific models (lr=Logistic Regression, rf=Random Forest, gb=Gradient Boosting)
+python train.py --models lr,rf
+
+# Generate evaluation report
+python train.py --report
+
+# Full training with all options
+python train.py --data data/customer_churn.csv --tune --models all --report
+```
+
+**CLI Arguments:**
+- `--data`: Path to training data CSV (default: from config.yaml)
+- `--tune`: Enable hyperparameter tuning (slower but better results)
+- `--models`: Models to train - `all`, `lr`, `rf`, `gb` (default: all)
+- `--report`: Generate comprehensive evaluation report with visualizations
+
+### API Usage
+
+#### Start the API Server
+
+```bash
+# Using Python directly
+python serve.py
+
+# Using Docker
+docker-compose up
+
+# Using Docker with rebuild
+docker-compose up --build
+```
+
+The API will be available at `http://localhost:8000`
+
+#### API Endpoints
+
+**Health Check**
+```bash
+curl http://localhost:8000/health
+```
+
+**Model Information**
+```bash
+curl http://localhost:8000/model/info
+```
+
+**Single Prediction**
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer_id": "CUST001",
+    "features": {
+      "gender": "Male",
+      "senior_citizen": 0,
+      "partner": "Yes",
+      "dependents": "No",
+      "tenure": 12,
+      "phone_service": "Yes",
+      "multiple_lines": "No",
+      "internet_service": "Fiber optic",
+      "online_security": "No",
+      "online_backup": "Yes",
+      "device_protection": "No",
+      "tech_support": "No",
+      "streaming_tv": "Yes",
+      "streaming_movies": "No",
+      "contract": "Month-to-month",
+      "paperless_billing": "Yes",
+      "payment_method": "Electronic check",
+      "monthly_charges": 70.35,
+      "total_charges": 840.75
+    }
+  }'
+```
+
+**Batch Prediction**
+```bash
+curl -X POST http://localhost:8000/predict/batch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customers": [
+      {
+        "customer_id": "CUST001",
+        "gender": "Male",
+        "senior_citizen": 0,
+        ...
+      },
+      {
+        "customer_id": "CUST002",
+        "gender": "Female",
+        "senior_citizen": 1,
+        ...
+      }
+    ]
+  }'
+```
+
+**API Documentation**
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+#### Python API Client Example
+
+```python
+import requests
+
+# Single prediction
+response = requests.post(
+    "http://localhost:8000/predict",
+    json={
+        "customer_id": "CUST001",
+        "features": {
+            "gender": "Male",
+            "senior_citizen": 0,
+            "partner": "Yes",
+            # ... other features
+        }
+    }
+)
+
+result = response.json()
+print(f"Prediction: {result['prediction']}")
+print(f"Probability: {result['churn_probability']:.2%}")
+print(f"Risk Level: {result['risk_level']}")
+```
+
+See `example_api_usage.py` for complete examples of all API endpoints.
+
+---
+
+## 🔄 CI/CD Pipeline
+
+The project includes a GitHub Actions CI/CD pipeline that automatically:
+
+- **Tests**: Runs all 130 unit tests on every push and pull request
+- **Code Quality**: Checks code formatting with black, flake8, and isort
+- **Coverage**: Generates test coverage reports and uploads to Codecov
+- **Docker**: Builds and tests Docker images
+
+The pipeline runs on:
+- Push to `main` or `develop` branches
+- Pull requests to `main` branch
+
+View the pipeline status in the [Actions tab](https://github.com/jayRathod07/customer-churn-prediction/actions).
 
 ---
 
@@ -471,7 +856,33 @@ TOTAL: 130/130 tests passed (100.0%)
 - [x] Volume mounts for persistence
 - [x] Environment configuration
 
-**Overall Progress**: ~70% (75/101 tasks completed)
+### Phase 8: Scripts & Testing ✅ COMPLETE
+
+- [x] Complete training pipeline script (train.py)
+- [x] CLI arguments for training configuration
+- [x] API server script (serve.py)
+- [x] Comprehensive unit tests (130 tests passing)
+- [x] API integration tests
+- [x] Test coverage reporting
+
+### Phase 9: CI/CD Pipeline ✅ COMPLETE
+
+- [x] GitHub Actions workflow
+- [x] Automated testing on push/PR
+- [x] Code quality checks (flake8, black, isort)
+- [x] Docker build and test
+- [x] Coverage reporting (Codecov integration)
+
+### Phase 10: Documentation ✅ COMPLETE
+
+- [x] Comprehensive README with examples
+- [x] API usage examples (example_api_usage.py)
+- [x] Training pipeline documentation
+- [x] Docker deployment guide
+- [x] API documentation (Swagger/ReDoc)
+- [x] Inline code documentation
+
+**Overall Progress**: ~85% (90/101 tasks completed)
 
 ---
 
