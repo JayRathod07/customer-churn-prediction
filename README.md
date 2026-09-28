@@ -1,981 +1,181 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/banner.svg" width="100%" alt="Customer Churn Prediction — Jay Rathod"/>
+
+<br/>
+
 # Customer Churn Prediction System
 
-An end-to-end machine learning project for predicting customer churn with production-ready code, comprehensive testing, and Docker deployment.
+<img src="https://img.shields.io/badge/ML-Complete%20Churn%20Prediction%20Pipeline-00D4AA?style=for-the-badge&labelColor=0d0d1a&color=00D4AA"/>
 
-[![CI/CD](https://github.com/jayRathod07/customer-churn-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/jayRathod07/customer-churn-prediction/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/tests-130%20passing-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.11-blue)]()
-[![License](https://img.shields.io/badge/license-MIT-green)]()
+<br/><br/>
 
----
+![Python](https://img.shields.io/badge/Python-4D9FFF?style=flat-square&logo=python&logoColor=white&labelColor=0d0d1a)
+![License](https://img.shields.io/github/license/JayRathod07/customer-churn-prediction?style=flat-square&color=9B59FF&labelColor=0d0d1a)
+![Stars](https://img.shields.io/github/stars/JayRathod07/customer-churn-prediction?style=flat-square&color=00D4AA&labelColor=0d0d1a)
+![Last Commit](https://img.shields.io/github/last-commit/JayRathod07/customer-churn-prediction?style=flat-square&color=4D9FFF&labelColor=0d0d1a)
 
-## Overview
+</div>
 
-This project demonstrates a complete ML pipeline for predicting customer churn. It includes everything from data generation and validation to model training and API deployment. The focus is on production-ready code with proper error handling, logging, testing, and configuration management.
+<br/>
 
-**What's included:**
-- Data engineering pipeline with validation and quality reporting
-- Feature engineering with multiple encoding strategies
-- Model training with hyperparameter tuning
-- RESTful API for predictions
-- Docker containerization
-- Comprehensive test suite
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/divider.svg" width="100%" alt=""/>
 
----
+<br/>
 
-## Features
+## ◈ &nbsp; What Is This?
 
-### Currently Working
+> **A complete end-to-end ML pipeline that predicts whether customers will churn — from raw data to production-ready model.**
 
-- **Data Generation**: Creates realistic synthetic customer data with 21 features
-- **Data Loading & Validation**: Robust CSV loading with schema validation
-- **Data Quality Reporting**: Detailed metrics on missing values, duplicates, and statistics
-- **Missing Value Handling**: Multiple imputation strategies (mean, median, mode, constant)
-- **Feature Engineering**: Complete transformation pipeline with encoding, scaling, and derived features
-- **Data Models**: Pydantic V2 models for robust data validation and API contracts
-- **Model Training**: Train multiple ML models (Logistic Regression, Random Forest, Gradient Boosting) with hyperparameter tuning
-- **Model Evaluation**: Comprehensive metrics, confusion matrix, ROC/PR curves, feature importance, and automated reports
-- **Model Persistence**: Save/load trained models with metadata
-- **REST API**: FastAPI endpoints for single and batch predictions with automatic documentation
-- **Docker Support**: Complete containerization with docker-compose
-- **Visualization**: Automated generation of evaluation plots and charts
-- **Configuration Management**: YAML-based config with environment variable support
-- **Logging**: Structured logging for production environments
-- **Testing**: Comprehensive unit tests with pytest (130 tests passing)
-- **Training Pipeline**: Complete end-to-end training script with CLI arguments
-- **CI/CD Pipeline**: GitHub Actions workflow for automated testing, linting, and Docker builds
-- **API Examples**: Comprehensive examples for all API endpoints
+This project covers the full machine learning lifecycle: data preprocessing, feature engineering, model training & evaluation, and a deployable prediction API. Built to be clean, well-documented, and immediately usable.
 
-### In Development
+<br/>
 
-- Advanced monitoring and logging
-- Model drift detection
+## ◈ &nbsp; Features
 
----
+<table>
+<tr>
+<td width="50%">
 
-## Tech Stack
+### ✦ &nbsp; Core Features
 
-- **Language**: Python 3.11+
-- **ML/Data**: pandas, NumPy, scikit-learn, XGBoost, LightGBM
-- **API**: FastAPI, Uvicorn, Pydantic
-- **Testing**: pytest, pytest-cov, hypothesis
-- **Deployment**: Docker, docker-compose
-- **Code Quality**: black, flake8, mypy
-- **Visualization**: matplotlib, seaborn, plotly
+- 📊 &nbsp; **Full EDA** — exploratory data analysis with visualizations
+- 🔧 &nbsp; **Feature engineering** pipeline
+- 🤖 &nbsp; **Multiple ML models** compared & evaluated
+- 📈 &nbsp; **Detailed metrics** — accuracy, ROC-AUC, F1, confusion matrix
 
----
+</td>
+<td width="50%">
 
-## 🚀 Quick Start
+### ✦ &nbsp; Technical Highlights
 
-### Prerequisites
+- ⚡ &nbsp; **scikit-learn** pipeline — reproducible & clean
+- 🔍 &nbsp; **Hyperparameter tuning** via GridSearch/RandomSearch
+- 💾 &nbsp; **Model serialization** — ready to deploy
+- 📓 &nbsp; **Jupyter notebooks** + clean Python scripts
 
-- Python 3.11 or higher
-- pip (Python package manager)
-- Git (for version control)
+</td>
+</tr>
+</table>
 
-### Installation
+<br/>
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/jayRathod07/customer-churn-prediction.git
-   cd customer-churn-prediction
-   ```
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/divider.svg" width="100%" alt=""/>
 
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   
-   # Windows
-   .\venv\Scripts\activate
-   
-   # Linux/Mac
-   source venv/bin/activate
-   ```
+<br/>
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Generate synthetic data**
-   ```bash
-   python scripts/generate_data.py --n-samples 10000
-   ```
-
-5. **Run demo**
-   ```bash
-   # Data pipeline demo
-   python demo.py
-   
-   # Feature engineering demo
-   python demo_features.py
-   
-   # Model training demo
-   python demo_training.py
-   
-   # Model evaluation demo
-   python demo_evaluation.py
-   ```
-
-6. **Train a model**
-   ```bash
-   # Quick training (no hyperparameter tuning)
-   python train.py
-   
-   # Full training with hyperparameter tuning and report
-   python train.py --tune --report
-   ```
-
-7. **Start the API server**
-   ```bash
-   # Start the API server
-   python serve.py
-   
-   # Or with Docker
-   docker-compose up
-   ```
-
-8. **Test the API**
-   ```bash
-   # Run API usage examples
-   python example_api_usage.py
-   ```
-
----
-
-## 📁 Project Structure
-
-```
-customer-churn-prediction/
-│
-├── data/                           # Data storage
-│   └── customer_churn.csv          # Generated customer data
-│
-├── config/                         # Configuration files
-│   └── config.yaml                 # System configuration
-│
-├── src/                            # Source code
-│   ├── data/                       # Data modules
-│   │   ├── data_loader.py          # Data loading and validation
-│   │   └── __init__.py
-│   │
-│   ├── features/                   # Feature engineering
-│   │   ├── feature_transformer.py  # Feature transformation pipeline
-│   │   └── __init__.py
-│   │
-│   ├── models/                     # ML models and data models
-│   │   ├── data_models.py          # Pydantic validation models
-│   │   ├── model_trainer.py        # Model training pipeline
-│   │   └── __init__.py
-│   │
-│   ├── api/                        # FastAPI endpoints
-│   │   └── __init__.py
-│   │
-│   └── utils/                      # Utilities
-│       ├── config.py               # Configuration manager
-│       ├── logger.py               # Logging setup
-│       ├── exceptions.py           # Custom exceptions
-│       └── __init__.py
-│
-├── tests/                          # Unit tests
-│   ├── test_data_loader.py         # DataLoader tests (24 tests)
-│   ├── test_feature_transformer.py # Feature tests (25 tests)
-│   ├── test_data_models.py         # Pydantic model tests (26 tests)
-│   ├── test_model_trainer.py       # Model training tests (25 tests)
-│   ├── test_model_evaluator.py     # Model evaluation tests (20 tests)
-│   └── test_api.py                 # API tests (10 tests)
-│
-├── scripts/                        # Utility scripts
-│   └── generate_data.py            # Data generation
-│
-├── .github/                        # GitHub configuration
-│   └── workflows/
-│       └── ci.yml                  # CI/CD pipeline
-│
-├── notebooks/                      # Jupyter notebooks
-│
-├── models/                         # Saved models
-├── artifacts/                      # Model artifacts
-├── reports/                        # Evaluation reports
-├── logs/                           # Application logs
-│
-├── requirements.txt                # Python dependencies
-├── train.py                        # Complete training pipeline script
-├── serve.py                        # API server script
-├── example_api_usage.py            # API usage examples
-├── demo.py                         # Demo script (data pipeline)
-├── demo_features.py                # Demo script (feature engineering)
-├── demo_training.py                # Demo script (model training)
-├── demo_evaluation.py              # Demo script (model evaluation)
-├── Dockerfile                      # Docker image definition
-├── docker-compose.yml              # Docker compose configuration
-├── .dockerignore                   # Docker ignore file
-├── test_all.py                     # Comprehensive test suite
-├── PROJECT_STATUS.md               # Detailed project status
-├── QUICK_START.md                  # Quick start guide
-└── README.md                       # This file
-```
-
----
-
-## 💻 Usage
-
-### Generate Synthetic Data
-
-```bash
-# Generate 10,000 customer records
-python scripts/generate_data.py --n-samples 10000
-
-# Specify output path
-python scripts/generate_data.py --n-samples 5000 --output data/my_data.csv
-
-# Set random seed for reproducibility
-python scripts/generate_data.py --n-samples 1000 --random-state 42
-```
-
-### Load and Validate Data
-
-```python
-from src.data.data_loader import DataLoader
-
-# Create loader
-loader = DataLoader()
-
-# Load data
-df = loader.load_data('data/customer_churn.csv')
-print(f"Loaded {len(df)} records")
-
-# Validate schema
-result = loader.validate_schema(df)
-if result.is_valid:
-    print("✓ Schema is valid")
-else:
-    print("✗ Validation errors:")
-    for error in result.errors:
-        print(f"  - {error}")
-```
-
-### Generate Quality Report
-
-```python
-from src.data.data_loader import DataQualityChecker
-import pandas as pd
-
-# Load data
-df = pd.read_csv('data/customer_churn.csv')
-
-# Generate report
-checker = DataQualityChecker()
-report = checker.generate_quality_report(df)
-
-# Print summary
-print(report.summary())
-```
-
-### Handle Missing Values
-
-```python
-from src.data.data_loader import DataLoader
-
-loader = DataLoader()
-df = loader.load_data('data/customer_churn.csv')
-
-# Define strategy
-strategy = {
-    'numerical': 'median',  # mean, median, drop
-    'categorical': 'mode'   # mode, constant, drop
-}
-
-# Handle missing values
-df_clean = loader.handle_missing_values(df, strategy)
-```
-
-### Feature Engineering
-
-```python
-from src.features.feature_transformer import FeatureTransformer
-import pandas as pd
-
-# Load data
-df = pd.read_csv('data/customer_churn.csv')
-
-# Create and fit transformer
-transformer = FeatureTransformer()
-X_transformed = transformer.fit_transform(df)
-
-print(f"Original features: {df.shape[1]}")
-print(f"Transformed features: {X_transformed.shape[1]}")
-
-# Save transformer for later use
-transformer.save('artifacts/feature_transformer.joblib')
-
-# Load transformer
-loaded_transformer = FeatureTransformer.load('artifacts/feature_transformer.joblib')
-X_new = loaded_transformer.transform(new_data)
-```
-
-### Data Validation with Pydantic
-
-```python
-from src.models.data_models import CustomerData, PredictionRequest
-
-# Validate customer data
-customer = CustomerData(
-    customer_id="CUST001",
-    gender="Male",
-    senior_citizen=0,
-    partner="Yes",
-    dependents="No",
-    tenure=12,
-    phone_service="Yes",
-    multiple_lines="No",
-    internet_service="Fiber optic",
-    online_security="No",
-    online_backup="Yes",
-    device_protection="No",
-    tech_support="No",
-    streaming_tv="Yes",
-    streaming_movies="No",
-    contract="Month-to-month",
-    paperless_billing="Yes",
-    payment_method="Electronic check",
-    monthly_charges=70.35,
-    total_charges=840.75
-)
-
-# Create prediction request
-request = PredictionRequest(
-    customer_id="CUST001",
-    features=customer.model_dump(exclude={'customer_id'})
-)
-```
-
-### Model Training
-
-```python
-from src.data.data_loader import DataLoader
-from src.features.feature_transformer import FeatureTransformer
-from src.models.model_trainer import ModelTrainer
-from src.utils.config import ConfigManager
-
-# Load configuration
-config_manager = ConfigManager()
-config = config_manager.config
-
-# Load and prepare data
-loader = DataLoader()
-df = loader.load_data('data/customer_churn.csv')
-
-# Separate features and target
-X = df.drop(['churn', 'customer_id'], axis=1)
-y = df['churn']
-
-# Transform features
-transformer = FeatureTransformer()
-X_transformed = transformer.fit_transform(X)
-
-# Initialize trainer
-trainer = ModelTrainer(config)
-
-# Train-test split
-X_train, X_test, y_train, y_test = trainer.prepare_train_test_split(
-    X_transformed, y, stratify=True
-)
-
-# Train all models
-results = trainer.train_all_models(X_train, y_train, tune_hyperparameters=True)
-
-# Select best model
-best_name, best_model, best_metrics = trainer.select_best_model(
-    results, X_test, y_test, metric='f1'
-)
-
-print(f"Best model: {best_name}")
-print(f"F1-Score: {best_metrics['f1']:.4f}")
-
-# Save best model
-model_path = trainer.save_model(best_model, best_name, best_metrics)
-print(f"Model saved to: {model_path}")
-```
-
-### Training Pipeline Script
-
-The `train.py` script provides a complete end-to-end training pipeline:
-
-```bash
-# Basic training (uses default data path from config)
-python train.py
-
-# Train with custom data
-python train.py --data path/to/data.csv
-
-# Enable hyperparameter tuning
-python train.py --tune
-
-# Train specific models (lr=Logistic Regression, rf=Random Forest, gb=Gradient Boosting)
-python train.py --models lr,rf
-
-# Generate evaluation report
-python train.py --report
-
-# Full training with all options
-python train.py --data data/customer_churn.csv --tune --models all --report
-```
-
-**CLI Arguments:**
-- `--data`: Path to training data CSV (default: from config.yaml)
-- `--tune`: Enable hyperparameter tuning (slower but better results)
-- `--models`: Models to train - `all`, `lr`, `rf`, `gb` (default: all)
-- `--report`: Generate comprehensive evaluation report with visualizations
-
-### API Usage
-
-#### Start the API Server
-
-```bash
-# Using Python directly
-python serve.py
-
-# Using Docker
-docker-compose up
-
-# Using Docker with rebuild
-docker-compose up --build
-```
-
-The API will be available at `http://localhost:8000`
-
-#### API Endpoints
-
-**Health Check**
-```bash
-curl http://localhost:8000/health
-```
-
-**Model Information**
-```bash
-curl http://localhost:8000/model/info
-```
-
-**Single Prediction**
-```bash
-curl -X POST http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customer_id": "CUST001",
-    "features": {
-      "gender": "Male",
-      "senior_citizen": 0,
-      "partner": "Yes",
-      "dependents": "No",
-      "tenure": 12,
-      "phone_service": "Yes",
-      "multiple_lines": "No",
-      "internet_service": "Fiber optic",
-      "online_security": "No",
-      "online_backup": "Yes",
-      "device_protection": "No",
-      "tech_support": "No",
-      "streaming_tv": "Yes",
-      "streaming_movies": "No",
-      "contract": "Month-to-month",
-      "paperless_billing": "Yes",
-      "payment_method": "Electronic check",
-      "monthly_charges": 70.35,
-      "total_charges": 840.75
-    }
-  }'
-```
-
-**Batch Prediction**
-```bash
-curl -X POST http://localhost:8000/predict/batch \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customers": [
-      {
-        "customer_id": "CUST001",
-        "gender": "Male",
-        "senior_citizen": 0,
-        ...
-      },
-      {
-        "customer_id": "CUST002",
-        "gender": "Female",
-        "senior_citizen": 1,
-        ...
-      }
-    ]
-  }'
-```
-
-**API Documentation**
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-
-#### Python API Client Example
-
-```python
-import requests
-
-# Single prediction
-response = requests.post(
-    "http://localhost:8000/predict",
-    json={
-        "customer_id": "CUST001",
-        "features": {
-            "gender": "Male",
-            "senior_citizen": 0,
-            "partner": "Yes",
-            # ... other features
-        }
-    }
-)
-
-result = response.json()
-print(f"Prediction: {result['prediction']}")
-print(f"Probability: {result['churn_probability']:.2%}")
-print(f"Risk Level: {result['risk_level']}")
-```
-
-See `example_api_usage.py` for complete examples of all API endpoints.
-
----
-
-## 🔄 CI/CD Pipeline
-
-The project includes a GitHub Actions CI/CD pipeline that automatically:
-
-- **Tests**: Runs all 130 unit tests on every push and pull request
-- **Code Quality**: Checks code formatting with black, flake8, and isort
-- **Coverage**: Generates test coverage reports and uploads to Codecov
-- **Docker**: Builds and tests Docker images
-
-The pipeline runs on:
-- Push to `main` or `develop` branches
-- Pull requests to `main` branch
-
-View the pipeline status in the [Actions tab](https://github.com/jayRathod07/customer-churn-prediction/actions).
-
----
-
-## 💻 Usage
-
-### Generate Synthetic Data
-
-```bash
-# Generate 10,000 customer records
-python scripts/generate_data.py --n-samples 10000
-
-# Specify output path
-python scripts/generate_data.py --n-samples 5000 --output data/my_data.csv
-
-# Set random seed for reproducibility
-python scripts/generate_data.py --n-samples 1000 --random-state 42
-```
-
-### Load and Validate Data
-
-```python
-from src.data.data_loader import DataLoader
-
-# Create loader
-loader = DataLoader()
-
-# Load data
-df = loader.load_data('data/customer_churn.csv')
-print(f"Loaded {len(df)} records")
-
-# Validate schema
-result = loader.validate_schema(df)
-if result.is_valid:
-    print("✓ Schema is valid")
-else:
-    print("✗ Validation errors:")
-    for error in result.errors:
-        print(f"  - {error}")
-```
-
-### Generate Quality Report
-
-```python
-from src.data.data_loader import DataQualityChecker
-import pandas as pd
-
-# Load data
-df = pd.read_csv('data/customer_churn.csv')
-
-# Generate report
-checker = DataQualityChecker()
-report = checker.generate_quality_report(df)
-
-# Print summary
-print(report.summary())
-```
-
-### Handle Missing Values
-
-```python
-from src.data.data_loader import DataLoader
-
-loader = DataLoader()
-df = loader.load_data('data/customer_churn.csv')
-
-# Define strategy
-strategy = {
-    'numerical': 'median',  # mean, median, drop
-    'categorical': 'mode'   # mode, constant, drop
-}
-
-# Handle missing values
-df_clean = loader.handle_missing_values(df, strategy)
-```
-
-### Feature Engineering
-
-```python
-from src.features.feature_transformer import FeatureTransformer
-import pandas as pd
-
-# Load data
-df = pd.read_csv('data/customer_churn.csv')
-
-# Create and fit transformer
-transformer = FeatureTransformer()
-X_transformed = transformer.fit_transform(df)
-
-print(f"Original features: {df.shape[1]}")
-print(f"Transformed features: {X_transformed.shape[1]}")
-
-# Save transformer for later use
-transformer.save('artifacts/feature_transformer.joblib')
-
-# Load transformer
-loaded_transformer = FeatureTransformer.load('artifacts/feature_transformer.joblib')
-X_new = loaded_transformer.transform(new_data)
-```
-
-### Data Validation with Pydantic
-
-```python
-from src.models.data_models import CustomerData, PredictionRequest
-
-# Validate customer data
-customer = CustomerData(
-    customer_id="CUST001",
-    gender="Male",
-    senior_citizen=0,
-    partner="Yes",
-    dependents="No",
-    tenure=12,
-    phone_service="Yes",
-    multiple_lines="No",
-    internet_service="Fiber optic",
-    online_security="No",
-    online_backup="Yes",
-    device_protection="No",
-    tech_support="No",
-    streaming_tv="Yes",
-    streaming_movies="No",
-    contract="Month-to-month",
-    paperless_billing="Yes",
-    payment_method="Electronic check",
-    monthly_charges=70.35,
-    total_charges=840.75
-)
-
-# Create prediction request
-request = PredictionRequest(
-    customer_id="CUST001",
-    features=customer.model_dump(exclude={'customer_id'})
-)
-```
-
-### Model Training
-
-```python
-from src.data.data_loader import DataLoader
-from src.features.feature_transformer import FeatureTransformer
-from src.models.model_trainer import ModelTrainer
-from src.utils.config import ConfigManager
-
-# Load configuration
-config_manager = ConfigManager()
-config = config_manager.config
-
-# Load and prepare data
-loader = DataLoader()
-df = loader.load_data('data/customer_churn.csv')
-
-# Separate features and target
-X = df.drop(['churn', 'customer_id'], axis=1)
-y = df['churn']
-
-# Transform features
-transformer = FeatureTransformer()
-X_transformed = transformer.fit_transform(X)
-
-# Initialize trainer
-trainer = ModelTrainer(config)
-
-# Train-test split
-X_train, X_test, y_train, y_test = trainer.prepare_train_test_split(
-    X_transformed, y, stratify=True
-)
-
-# Train all models
-results = trainer.train_all_models(X_train, y_train, tune_hyperparameters=True)
-
-# Select best model
-best_name, best_model, best_metrics = trainer.select_best_model(
-    results, X_test, y_test, metric='f1'
-)
-
-print(f"Best model: {best_name}")
-print(f"F1-Score: {best_metrics['f1']:.4f}")
-
-# Save best model
-model_path = trainer.save_model(best_model, best_name, best_metrics)
-print(f"Model saved to: {model_path}")
-```
-
----
-
-## 🧪 Testing
-
-### Run All Tests
-
-```bash
-# Run comprehensive test suite
-python test_all.py
-
-# Run specific test file
-pytest tests/test_data_loader.py -v
-pytest tests/test_feature_transformer.py -v
-pytest tests/test_data_models.py -v
-pytest tests/test_model_trainer.py -v
-
-# Run all tests
-pytest tests/ -v
-
-# Run with coverage
-pytest tests/ --cov=src --cov-report=html
-```
-
-### Test Results
-
-```
-✅ Data Loader Tests       - PASS (24/24)
-✅ Feature Transformer     - PASS (25/25)
-✅ Data Models Tests       - PASS (26/26)
-✅ Model Trainer Tests     - PASS (25/25)
-✅ Model Evaluator Tests   - PASS (20/20)
-✅ API Tests               - PASS (10/10)
-
-TOTAL: 130/130 tests passed (100.0%)
-```
-
----
-
-## 📊 Development Status
-
-### Phase 1: Data Infrastructure ✅ COMPLETE
-
-- [x] Project structure setup
-- [x] Data generation script
-- [x] Data loading and validation
-- [x] Data quality reporting
-- [x] Missing value handling
-- [x] Configuration management
-- [x] Logging setup
-- [x] Unit tests (24 tests passing)
-
-### Phase 2: Feature Engineering ✅ COMPLETE
-
-- [x] Feature transformer class
-- [x] Categorical encoding (binary and one-hot)
-- [x] Numerical scaling (StandardScaler)
-- [x] Derived features (5 new features)
-- [x] Transformer persistence (save/load)
-- [x] Unit tests (25 tests passing)
-- [x] Demo script
-
-### Phase 3: Data Models ✅ COMPLETE
-
-- [x] Pydantic V2 models for validation
-- [x] CustomerData and TrainingData models
-- [x] API request/response models
-- [x] ModelMetadata and EvaluationMetrics models
-- [x] Enum classes for categorical fields
-- [x] Unit tests (26 tests passing)
-
-### Phase 4: Model Training ✅ COMPLETE
-
-- [x] Train-test split with stratification
-- [x] ModelTrainer class
-- [x] Logistic Regression training
-- [x] Random Forest training
-- [x] Gradient Boosting training
-- [x] Hyperparameter tuning (RandomizedSearchCV)
-- [x] Model selection logic
-- [x] Model persistence with metadata
-- [x] Unit tests (25 tests passing)
-- [x] Demo script
-
-### Phase 5: Model Evaluation ✅ COMPLETE
-
-- [x] ModelEvaluator class
-- [x] Comprehensive metrics computation
-- [x] Confusion matrix generation and plotting
-- [x] ROC curve and PR curve visualization
-- [x] Feature importance extraction and plotting
-- [x] Classification report generation
-- [x] Evaluation reports (Markdown, JSON)
-- [x] Unit tests (20 tests passing)
-- [x] Demo script
-
-### Phase 6: API Development ✅ COMPLETE
-
-- [x] FastAPI application
-- [x] PredictionService with lazy loading
-- [x] POST /predict endpoint (single prediction)
-- [x] POST /predict/batch endpoint (batch predictions)
-- [x] GET /health endpoint
-- [x] GET /model/info endpoint
-- [x] Error handling and validation
-- [x] API documentation (Swagger/ReDoc)
-- [x] Unit tests (10 tests passing)
-- [x] serve.py script
-
-### Phase 7: Deployment ✅ COMPLETE
-
-- [x] Dockerfile
-- [x] docker-compose.yml
-- [x] .dockerignore
-- [x] Health checks
-- [x] Volume mounts for persistence
-- [x] Environment configuration
-
-### Phase 8: Scripts & Testing ✅ COMPLETE
-
-- [x] Complete training pipeline script (train.py)
-- [x] CLI arguments for training configuration
-- [x] API server script (serve.py)
-- [x] Comprehensive unit tests (130 tests passing)
-- [x] API integration tests
-- [x] Test coverage reporting
-
-### Phase 9: CI/CD Pipeline ✅ COMPLETE
-
-- [x] GitHub Actions workflow
-- [x] Automated testing on push/PR
-- [x] Code quality checks (flake8, black, isort)
-- [x] Docker build and test
-- [x] Coverage reporting (Codecov integration)
-
-### Phase 10: Documentation ✅ COMPLETE
-
-- [x] Comprehensive README with examples
-- [x] API usage examples (example_api_usage.py)
-- [x] Training pipeline documentation
-- [x] Docker deployment guide
-- [x] API documentation (Swagger/ReDoc)
-- [x] Inline code documentation
-
-**Overall Progress**: ~85% (90/101 tasks completed)
-
----
-
-## 🗺️ Roadmap
-
-### Short Term (Next 2 Weeks)
-
-- Complete feature engineering module
-- Implement model training pipeline
-- Add model evaluation and visualization
-- Create prediction API
-
-### Medium Term (Next Month)
-
-- Docker containerization
-- CI/CD pipeline setup
-- Comprehensive documentation
-- Example notebooks
-
-### Long Term (Next 3 Months)
-
-- Model monitoring and drift detection
-- A/B testing framework
-- Advanced feature engineering
-- Model explainability (SHAP, LIME)
-
----
-
-## 📈 Key Metrics
-
-| Metric | Target | Current |
-|--------|--------|---------|
-| Test Coverage | 80% | 100% (Phases 1-3) |
-| Model F1-Score | 80% | TBD |
-| API Response Time | <100ms | TBD |
-| Docker Image Size | <2GB | TBD |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 style guide
-- Add unit tests for new features
-- Update documentation
-- Run tests before submitting PR
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-**Jay Rathod**
-
-- GitHub: [@jayRathod07](https://github.com/jayRathod07)
-- LinkedIn: [Jay Rathod](https://www.linkedin.com/in/jay-rathod-9ab3a0371/)
-- Email: jayrathod121005@gmail.com
-
----
-
-## 🙏 Acknowledgments
-
-- Inspired by real-world customer churn prediction challenges
-- Built with modern ML best practices
-- Designed for production deployment
-
----
-
-## 📚 Additional Resources
-
-- [Project Status](PROJECT_STATUS.md) - Detailed implementation status
-- [Quick Start Guide](QUICK_START.md) - Step-by-step setup instructions
-
----
+## ◈ &nbsp; Tech Stack
 
 <div align="center">
 
-**⭐ Star this repo if you find it helpful!**
-
-Made with ❤️ for the ML community
+![Python](https://img.shields.io/badge/Python-4D9FFF?style=flat-square&logo=python&logoColor=white&labelColor=0d0d1a)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white&labelColor=0d0d1a)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white&labelColor=0d0d1a)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white&labelColor=0d0d1a)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-9B59FF?style=flat-square&logoColor=white&labelColor=0d0d1a)
+![Seaborn](https://img.shields.io/badge/Seaborn-00D4AA?style=flat-square&logoColor=white&labelColor=0d0d1a)
 
 </div>
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/divider.svg" width="100%" alt=""/>
+
+<br/>
+
+## ◈ &nbsp; Quick Start
+
+### Prerequisites
+
+```bash
+python >= 3.10
+pip
+```
+
+### Installation
+
+```bash
+# 1. Clone
+git clone https://github.com/JayRathod07/customer-churn-prediction.git
+cd customer-churn-prediction
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run the full pipeline
+python train.py
+
+# 4. Predict on new data
+python predict.py --input data/new_customers.csv
+```
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/divider.svg" width="100%" alt=""/>
+
+<br/>
+
+## ◈ &nbsp; ML Pipeline
+
+```
+Raw Data
+    │
+    ▼
+┌─────────────────────┐
+│  Data Preprocessing │  ──▶  Handle missing values, encode categoricals
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Feature Engineering│  ──▶  Create new features, scale numerics
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Model Training     │  ──▶  Logistic Regression, Random Forest, XGBoost
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│  Evaluation         │  ──▶  ROC-AUC, F1, Precision, Recall
+└──────────┬──────────┘
+           │
+           ▼
+   💾 Best Model Saved  ──▶  Ready for deployment
+```
+
+<br/>
+
+## ◈ &nbsp; Contributing
+
+1. **Fork** this repository
+2. **Create** a feature branch: `git checkout -b feature/your-feature`
+3. **Commit**: `git commit -m 'feat: add amazing feature'`
+4. **Push**: `git push origin feature/your-feature`
+5. **Open** a Pull Request
+
+<br/>
+
+## ◈ &nbsp; License
+
+MIT License — see [`LICENSE`](./LICENSE) for details.
+
+<br/>
+
+<div align="center">
+
+Made with depth & glass by **[Jay Rathod](https://github.com/JayRathod07)**
+
+<a href="https://github.com/JayRathod07">
+  <img src="https://img.shields.io/badge/GitHub-@JayRathod07-4D9FFF?style=for-the-badge&logo=github&logoColor=white&labelColor=0d0d1a"/>
+</a>
+&nbsp;
+<a href="mailto:jayrathod121005@gmail.com">
+  <img src="https://img.shields.io/badge/Email-Contact-9B59FF?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0d0d1a"/>
+</a>
+
+</div>
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/JayRathod07/JayRathod07/main/assets/footer.svg" width="100%" alt="Jay Rathod — One Glass"/>
