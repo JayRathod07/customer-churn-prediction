@@ -1,13 +1,17 @@
 # CI/CD Pipeline for Customer Churn Prediction
 # Author: Jay Rathod
+#
+# NOTE: Automatic triggers are disabled. Run manually from GitHub Actions tab
+# when needed. Re-enable by uncommenting the push/pull_request blocks below.
 
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:   # manual trigger only — no automatic runs
+  # push:
+  #   branches: [ main, develop ]
+  # pull_request:
+  #   branches: [ main ]
 
 jobs:
   test:
